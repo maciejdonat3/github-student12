@@ -12,25 +12,4 @@ jobs:
         with:
           python-version: '3.12'
       - run: pip install -r requirements.txt
-      - run: pytest
-EOFcat << 'EOF' > .github/workflows/docker.yml
-name: Docker Build & Secret Demo
-on:
-  push:
-  pull_request:
-
-jobs:
-  build:
-    runs-on: ubuntu-latest
-    steps:
-      - uses: actions/checkout@v4
-      - name: Demo Sekretu
-        env:
-          DEMO_TOKEN: ${{ secrets.DEMO_TOKEN }}
-        run: |
-          echo "Testowanie przekazywania sekretu do środowiska..."
-          test -n "$DEMO_TOKEN"
-      - name: Build Docker Image
-        run: docker build -t github-student12:ci .
-      - name: Test Container
-        run: docker run --rm github-student12:ci
+      - run: PYTHONPATH=. pytest
